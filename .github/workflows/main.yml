@@ -55,3 +55,17 @@ jobs:
         - name: Deploy to Cloud Foundry           
           run: |
             cf deploy ./gitactions_0.0.1.mtar
+
+        - name: CURL
+          run: |
+            curl -V
+            sudo apt-get install jq
+
+        - name: Token
+          run: |        
+           TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
+           echo $TOKEN
+           fileId=$(curl -s --location --request POST '${{ secrets.TMS_URL }}/v2/files/upload' --header "Authorization: Bearer $TOKEN" -F 'file=@${{ github.workspace }}/gitactions_0.0.1.mtar' | jq -r '.fileId')
+           echo $fileId           
+           response=$(curl -s --request POST '${{ secrets.TMS_URL }}/v2/nodes/upload' --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"nodeName": "TMS_DEV","contentType": "MTA","storageType": "FILE","entries": [{"uri": '"$fileId"'}], "description": "export/upload of 1 MTA"}')
+           echo $response
