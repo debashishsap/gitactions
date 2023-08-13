@@ -74,4 +74,6 @@ jobs:
            nodeId=$(echo $response | jq -r '.queueEntries[0].nodeId')
            echo $transportRequests
            echo $nodeId
+           imports=$(curl -s --request POST '${{ vars.TMS_URL }}/nodes/$nodeId/transportRequests/import' --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [$transportRequests]}')
+           echo $imports
 
