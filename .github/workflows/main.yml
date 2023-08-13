@@ -54,7 +54,8 @@ jobs:
 
         - name: Deploy to Cloud Foundry           
           run: |
-            cf deploy ./gitactions_0.0.1.mtar
+            cf deploy ./gitactions_0.0.1.mtar --forceOpt true
+          # cf deploy ./gitactions_0.0.1.mtar
 
         - name: CURL
           run: |
@@ -76,5 +77,5 @@ jobs:
            echo $nodeId
            imports=$(curl -s --request POST "${{ vars.TMS_URL }}/nodes/$nodeId/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [$transportRequests]}')
            echo $imports
-           
+
 
