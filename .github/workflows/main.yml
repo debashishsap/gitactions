@@ -70,8 +70,8 @@ jobs:
            echo $fileId        
            response=$(curl -s --request POST '${{ vars.TMS_URL }}/v2/nodes/upload' --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"nodeName": "TMS_DEV","contentType": "MTA","storageType": "FILE","entries": [{"uri": '"$fileId"'}], "description": "${{ github.event.head_commit.message }}",  "namedUser": "GitHub" }')
            echo $response
-           transportRequests= jq $response '.transportRequestId'
-           nodeId= jq $response '.queueEntries[0].nodeId'
+           transportRequests=$(echo $response | jq -r '.transportRequestId')
+           nodeId=$(echo $response | jq -r '.queueEntries[0].nodeId')
            echo $transportRequests
            echo $nodeId
 
