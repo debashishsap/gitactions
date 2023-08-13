@@ -34,10 +34,10 @@ jobs:
         #     name: mta
         #     path: ./mta_archives/gitactions_0.0.1.mtar        
                    
-    deploy:
-     needs: build
-     runs-on: ubuntu-latest
-     steps:        
+    # deploy:
+    #  needs: build
+    #  runs-on: ubuntu-latest
+    #  steps:        
         # - name: Download Artifact
         #   uses: actions/download-artifact@master
         #   with:
