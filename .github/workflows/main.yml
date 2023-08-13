@@ -30,11 +30,11 @@ jobs:
      needs: build
      runs-on: ubuntu-latest
      steps:        
-        - name: Download Artifact
-          uses: actions/download-artifact@master
-          with:
-            name: mta
-            path: ./
+        # - name: Download Artifact
+        #   uses: actions/download-artifact@master
+        #   with:
+        #     name: mta
+        #     path: ./
         
         # - name: Get MTA path
         #   run: |
@@ -62,7 +62,7 @@ jobs:
             curl -V
             sudo apt-get install jq
 
-        - name: Token
+        - name: TMS Upload/Import
           run: |        
             TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
             imports=$(curl -s --request POST "${{ vars.TMS_URL }}/v2/nodes/1/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [301]}')
