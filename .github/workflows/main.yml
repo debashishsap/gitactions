@@ -22,8 +22,8 @@ jobs:
             node-version: 16
         
         - name: Print message if empty
-          if: "${{ github.event.inputs.level == '' }}"
-          run: echo Level value is empty
+          if: "${{ github.event.inputs.level.required == true }}"
+          run: echo Level value is ${{ github.event.inputs.level.required }}
         
         # - name: Install MTA Build Tool
         #   run: npm install
