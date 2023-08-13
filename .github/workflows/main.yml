@@ -33,7 +33,7 @@ jobs:
           uses: actions/upload-artifact@master
           with:
             name: mta
-            path: ./mta_archives/gitactions_0.0.1.mtar        
+            # path: ./mta_archives/gitactions_0.0.1.mtar
                    
     deploy:
      needs: build
@@ -50,21 +50,21 @@ jobs:
             ls -ltr
             echo {{ github.workspace }}
 
-        - name: Install CF
-          run: |
-            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-            sudo apt-get update
-            sudo apt-get install cf8-cli
-            cf install-plugin -f https://github.com/cloudfoundry-incubator/multiapps-cli-plugin/releases/latest/download/multiapps-plugin.linux64              
+        # - name: Install CF
+        #   run: |
+        #     wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+        #     echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+        #     sudo apt-get update
+        #     sudo apt-get install cf8-cli
+        #     cf install-plugin -f https://github.com/cloudfoundry-incubator/multiapps-cli-plugin/releases/latest/download/multiapps-plugin.linux64              
 
-        - name: CF login
-          run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
+        # - name: CF login
+        #   run: cf login -a ${{ secrets.CF_API }} -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
 
-        - name: Deploy to Cloud Foundry           
-          run: |
-            cf deploy ./gitactions_0.0.1.mtar -f
-          # cf deploy ./gitactions_0.0.1.mtar
+        # - name: Deploy to Cloud Foundry           
+        #   run: |
+        #     cf deploy ./gitactions_0.0.1.mtar -f
+        #   # cf deploy ./gitactions_0.0.1.mtar
 
         - name: CURL
           run: |
