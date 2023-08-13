@@ -20,11 +20,11 @@ jobs:
         - name: Build MTA
           run: mbt build -p cf
         
-        - name: Upload Artifact
-          uses: actions/upload-artifact@master
-          with:
-            name: mta
-            path: ./mta_archives/gitactions_0.0.1.mtar        
+        # - name: Upload Artifact
+        #   uses: actions/upload-artifact@master
+        #   with:
+        #     name: mta
+        #     path: ./mta_archives/gitactions_0.0.1.mtar        
                    
     deploy:
      needs: build
