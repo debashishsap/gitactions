@@ -72,7 +72,7 @@ jobs:
             sudo apt-get install jq
 
         - name: TMS Upload/Import
-          if: "${{ inputs.tms == true }}"
+          if: "${{ github.event.inputs.tms }}"
           run: |        
            TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
            echo $TOKEN
