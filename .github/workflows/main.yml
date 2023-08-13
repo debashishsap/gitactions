@@ -6,10 +6,15 @@ on:
   
   workflow_dispatch:
     inputs:
-      tms:
-        description: 'TMS required'
+      logLevel:
+        description: 'Log level'
         required: true
-        default: false
+        default: 'warning'
+        type: choice
+        options:
+        - info
+        - warning
+        - debug
 
 jobs:
     build:
