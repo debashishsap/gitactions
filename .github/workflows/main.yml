@@ -8,7 +8,8 @@ on:
     inputs:
       level:
         description: 'level to process'
-        type: number
+        type: boolean
+        default: false
         required: true
 
 jobs:
@@ -22,8 +23,8 @@ jobs:
             node-version: 16
         
         - name: Print message if empty
-          if: "${{ github.event.inputs.level.required == true }}"
-          run: echo Level value is ${{ github.event.inputs.level.required }}
+          if: "${{ github.event.inputs.level == true }}"
+          run: echo Level value is empty
         
         # - name: Install MTA Build Tool
         #   run: npm install
