@@ -67,6 +67,11 @@ jobs:
            echo $TOKEN
            echo '${{ vars.TMS_URL }}/v2/files/upload'           
            fileId=$(curl -s --location --request POST '${{ vars.TMS_URL }}/v2/files/upload' --header "Authorization: Bearer $TOKEN" -F 'file=@./gitactions_0.0.1.mtar' | jq -r '.fileId')
-           echo $fileId           
+           echo $fileId        
            response=$(curl -s --request POST '${{ vars.TMS_URL }}/v2/nodes/upload' --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"nodeName": "TMS_DEV","contentType": "MTA","storageType": "FILE","entries": [{"uri": '"$fileId"'}], "description": "${{ github.event.head_commit.message }}",  "namedUser": "GitHub" }')
            echo $response
+           transportRequests= jq '.transportRequestId' $response
+           nodeId= jq '.queueEntries[0].nodeId' $response
+           echo $transportRequests
+           echo $nodeId
+
