@@ -2,6 +2,7 @@ name: Deploy to Cloud Foundry
 
 env:
   tms: true
+  deploy: false
 
 on:
   push:
@@ -26,12 +27,14 @@ jobs:
           run: mbt build -p cf
         
         - name: Upload Artifact
+          if: ${{ env.deploy == 'true' }}
           uses: actions/upload-artifact@master
           with:
             name: mta
             path: ./mta_archives/gitactions_0.0.1.mtar        
                    
     deploy:
+     if: ${{ env.deploy == 'true' }}
      needs: build
      runs-on: ubuntu-latest
      steps:        
