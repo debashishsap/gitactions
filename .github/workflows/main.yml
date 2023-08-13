@@ -54,7 +54,7 @@ jobs:
 
         - name: Deploy to Cloud Foundry           
           run: |
-            cf deploy ./gitactions_0.0.1.mtar --forceOpt true
+            cf deploy ./gitactions_0.0.1.mtar -f
           # cf deploy ./gitactions_0.0.1.mtar
 
         - name: CURL
