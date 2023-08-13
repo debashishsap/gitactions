@@ -76,7 +76,7 @@ jobs:
            echo $transportRequests
            echo $nodeId
            echo "${{ vars.TMS_URL }}/nodes/$nodeId/transportRequests/import"
-           imports=$(curl -s --request POST "https://transport-service-app-backend.ts.cfapps.us10.hana.ondemand.com/nodes/1/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [301]}')
+           imports=$(curl -s --request POST "${{ vars.TMS_URL }}/v2/nodes/$nodeId/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [transportRequests]}')
            echo $imports
 
 
