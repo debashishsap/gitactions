@@ -17,8 +17,8 @@ jobs:
           run: npm install
                npm install -g mbt
 
-        - name: Build MTA
-          run: mbt build -p cf
+        # - name: Build MTA
+        #   run: mbt build -p cf
         
         # - name: Upload Artifact
         #   uses: actions/upload-artifact@master
@@ -36,10 +36,10 @@ jobs:
             name: mta
             path: ./
         
-        - name: Get MTA path
-          run: |
-            ls -ltr
-            echo {{ github.workspace }}
+        # - name: Get MTA path
+        #   run: |
+        #     ls -ltr
+        #     echo {{ github.workspace }}
 
         # - name: Install CF
         #   run: |
@@ -65,7 +65,7 @@ jobs:
         - name: Token
           run: |        
             TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
-            imports=$(curl -s --request POST "${{ vars.TMS_URL }}/v2/nodes/$nodeId/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [301]}')
+            imports=$(curl -s --request POST "${{ vars.TMS_URL }}/v2/nodes/1/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [301]}')
             echo $imports
           #  TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
           #  echo $TOKEN
