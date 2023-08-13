@@ -65,9 +65,8 @@ jobs:
           run: |        
            TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
            echo $TOKEN
-           echo '${{ vars.TMS_URL }}/v2/files/upload'
-           echo $TMS_URL'/v2/files/upload'
+           echo '${{ vars.TMS_URL }}/v2/files/upload'           
            fileId=$(curl -s --location --request POST '${{ vars.TMS_URL }}/v2/files/upload' --header "Authorization: Bearer $TOKEN" -F 'file=@./gitactions_0.0.1.mtar' | jq -r '.fileId')
            echo $fileId           
-           response=$(curl -s --request POST '${{ vars.TMS_URL }}/v2/nodes/upload' --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"nodeName": "TMS_DEV","contentType": "MTA","storageType": "FILE","entries": [{"uri": '"$fileId"'}], "description": ${{ github.event.head_commit.message }},  "namedUser": "GitHub" }')
+           response=$(curl -s --request POST '${{ vars.TMS_URL }}/v2/nodes/upload' --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"nodeName": "TMS_DEV","contentType": "MTA","storageType": "FILE","entries": [{"uri": '"$fileId"'}], "description": "${{ github.event.head_commit.message }}",  "namedUser": "GitHub" }')
            echo $response
