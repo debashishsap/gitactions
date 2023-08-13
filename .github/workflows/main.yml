@@ -65,7 +65,8 @@ jobs:
         - name: TMS Upload/Import
           run: |        
             TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
-            imports=$(curl -s --request POST "${{ vars.TMS_URL }}/v2/nodes/1/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [301]}')
+            transportRequests=315
+            imports=$(curl -s --request POST "${{ vars.TMS_URL }}/v2/nodes/1/transportRequests/import" --header "Authorization: Bearer $TOKEN" --header "Content-Type: application/json" -d '{"namedUser": "GitHub", "transportRequests": [$transportRequests]}')
             echo $imports
           #  TOKEN=$(curl -XPOST -H 'Accept: application/json' -u '${{ secrets.TMS_CLIENTID }}:${{ secrets.TMS_CLIENTSECRET }}' -H 'Content-Type: application/x-www-form-urlencoded' '${{ secrets.TMS_TOKEN }}?grant_type=client_credentials&response_type=token' | sed -n '/ *"access_token": *"/ {s///; s/{//g ;s/".*//; p; }')
           #  echo $TOKEN
